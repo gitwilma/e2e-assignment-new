@@ -24,6 +24,12 @@ export default defineConfig({
         await waitOn({ "resources": ["http://localhost:3100"], timeout: 60_000 });
 
       // 4. Städa upp processerna dvs Mongo databasen och Next.s-servern
+      const cleanup = async () => {
+        server.kill();
+        await db.stop();
+      };
+      process.on("exit", cleanup);
+
       // 5. Reseeda om databasen så att testerna blir obereonde av varandra.
 
       on("task", {
