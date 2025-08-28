@@ -1,3 +1,4 @@
+import { spawn } from "child_process";
 import { defineConfig } from "cypress";
 import { MongoMemoryReplSet } from "mongodb-memory-server";
 import { seedTodos } from "./prisma/seed/todo";
@@ -6,13 +7,21 @@ export default defineConfig({
   e2e: {
     async setupNodeEvents(on, config) {
       // implement node event listeners here
-        // 1. Skapa en in-memory databas (replica set, prisma gnäller annars)
-        const db = await MongoMemoryReplSet.create({ "replSet": { count: 1 }});
-        const dbUri = db.getUri("cypress-test");
-        // 2. Starta Next.js servern (på en annan port som ansluter till 1.)
-        // 3. Vänta på att Next.js servern är igång innan cypress kör vidare
-        // 4. Städa upp processerna dvs Mongo databasen och Next.s-servern
-        // 5. Reseeda om databasen så att testerna blir obereonde av varandra. 
+      // 1. Skapa en in-memory databas (replica set, prisma gnäller annars)
+      const db = await MongoMemoryReplSet.create({ replSet: { count: 1 } });
+      const dbUri = db.getUri("cypress-test");
+      // 2. Starta Next.js servern (på en annan port som ansluter till 1.)
+      const server = spawn("npx", ["next", "dev", "--turbopack", "-p", "3100"], {
+        env: {
+          NODE_ENV: "test", 
+          DATABASE_URL: dbUri
+        },
+        stdio: "inherit",
+      });
+
+      // 3. Vänta på att Next.js servern är igång innan cypress kör vidare
+      // 4. Städa upp processerna dvs Mongo databasen och Next.s-servern
+      // 5. Reseeda om databasen så att testerna blir obereonde av varandra.
 
       on("task", {
         async reseed() {
