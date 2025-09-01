@@ -40,6 +40,12 @@ export default defineConfig({
         async reseed() {
           const { db } = await import("./prisma/db");
           const { seedTodos } = await import("./prisma/seed/todo");
+          const { seedPilates } = await import("./prisma/seed/pilates");
+          //await db.todo.deleteMany();
+          //await seedTodos();
+          await db.booking.deleteMany();
+          await db.pilatesClass.deleteMany();
+          await seedPilates();
           await db.todo.deleteMany();
           await seedTodos();
           
