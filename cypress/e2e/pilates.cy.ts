@@ -24,4 +24,16 @@ describe("Studio Pilates Co — skeleton", () => {
   cy.get('[data-cy=class-select] option:disabled').contains("Reformer Basic 18:00");
 });
 
+it("should prevent double booking the same class", () => {
+  cy.visit("/");
+  cy.get('[data-cy=class-select]').select("Matwork 07:00");
+  cy.get('[data-cy=name-input]').type("Jim");
+  cy.get('[data-cy=submit-booking]').click();
+
+  // andra försök
+  cy.visit("/");
+  cy.get('[data-cy=class-select] option:disabled').contains("Matwork 07:00");
+});
+
+
 });
