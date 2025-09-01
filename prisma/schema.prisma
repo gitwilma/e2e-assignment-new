@@ -14,7 +14,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Todo {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  text String
+model PilatesClass {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  startsAt DateTime
+  capacity Int      @default(1)
+
+  @@index([startsAt])
+}
+
+model Booking {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  classId   String   @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+
+  // en bokning per klass (kapacitet 1)
+  @@unique([classId])
 }

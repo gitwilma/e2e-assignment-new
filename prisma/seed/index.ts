@@ -1,8 +1,10 @@
 import { db } from "../db";
-import { seedTodos } from "./todo";
+import { seedPilates } from "./pilates";
 
 async function main() {
-  await seedTodos();
+  await db.booking.deleteMany();
+  await db.pilatesClass.deleteMany();
+  await seedPilates();
 }
 
 main()
