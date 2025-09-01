@@ -4,6 +4,8 @@ export default async function Home() {
   const classes = await db.pilatesClass.findMany({
     orderBy: { startsAt: "asc" },
   });
+  const booked = await db.booking.findMany();
+  const bookedIds = new Set(booked.map((b) => b.classId));
 
   return (
     <main className="p-6 space-y-4">
@@ -12,11 +14,16 @@ export default async function Home() {
       <form className="space-y-2">
         <label className="block">
           Class
-          <select data-cy="class-select" className="border p-2 ml-2">
-            <option value="">Choose your class</option>
+          <select
+            name="classId"
+            data-cy="class-select"
+            className="border p-2 ml-2"
+          >
+            <option value="">Choose a class</option>
             {classes.map((c) => (
-              <option key={c.id} value={c.id}>
+              <option key={c.id} value={c.id} disabled={bookedIds.has(c.id)}>
                 {c.name}
+                {bookedIds.has(c.id) ? " (Fully booked)" : ""}
               </option>
             ))}
           </select>
@@ -39,6 +46,11 @@ export default async function Home() {
           Book
         </button>
       </form>
+      {booked.length > 0 && (
+        <div data-cy="booking-success" className="mt-4">
+          Senaste bokning: {booked[booked.length - 1].name}
+        </div>
+      )}
     </main>
   );
 }
