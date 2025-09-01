@@ -1,15 +1,27 @@
 describe("Studio Pilates Co — skeleton", () => {
   beforeEach(() => cy.task("reseed"));
 
-  it("renders app shell", () => {
+  it("should render app shell", () => {
     cy.visit("/");
     cy.contains("Studio Pilates Co").should("exist");
   });
 
-  it("shows booking form skeleton", () => {
+  it("should display booking form skeleton", () => {
     cy.visit("/");
     cy.get('[data-cy=class-select]').should("exist");
     cy.get('[data-cy=name-input]').should("exist");
     cy.get('[data-cy=submit-booking]').should("be.disabled");
   });
+
+  it("should allow booking a free class and then shows it as full", () => {
+  cy.visit("/");
+  cy.get('[data-cy=class-select]').select("Reformer Basic 18:00");
+  cy.get('[data-cy=name-input]').type("Kristin");
+  cy.get('[data-cy=submit-booking]').click();
+
+  cy.get('[data-cy=booking-success]').should("contain", "Kristin");
+  cy.visit("/");
+  cy.get('[data-cy=class-select] option:disabled').contains("Reformer Basic 18:00");
+});
+
 });
