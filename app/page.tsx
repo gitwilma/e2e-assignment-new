@@ -17,13 +17,13 @@ export default async function Home() {
 
   return (
     <main className="p-6 space-y-4">
-      <h1 className="text-2xl font-semibold">Studio Pilates Co</h1>
+      <h1 className="text-2xl font-semibold text-center">Studio Pilates Co.</h1>
 
       <BookingForm classes={options} action={createBooking} />
 
       {bookings.length > 0 && (
-        <div data-cy="booking-success" className="mt-4">
-          Senaste bokning: {bookings[bookings.length - 1].name}
+        <div data-cy="booking-success" className="mt-4 text-center">
+          Latest booking: {bookings[bookings.length - 1].name}
         </div>
       )}
     </main>
