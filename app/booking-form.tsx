@@ -15,13 +15,15 @@ export default function BookingForm({ classes, action }: Props) {
   const isValid = classId !== "" && name.trim().length >= 2;
 
   return (
-    <form action={action} className="space-y-2">
-      <label className="block">
-        Class
+    <form action={action} className="space-y-6 flex flex-col items-center">
+      <label className="block w-full max-w-sm mx-auto">
         <select
           name="classId"
           data-cy="class-select"
-          className="border p-2 ml-2"
+          className="w-full rounded-xl border p-3
+                     bg-transparent text-center transition
+                     hover:bg-white/10 hover:shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-white/30"
           value={classId}
           onChange={(e) => setClassId(e.target.value)}
         >
@@ -35,25 +37,36 @@ export default function BookingForm({ classes, action }: Props) {
         </select>
       </label>
 
-      <label className="block">
-        Name
+      {/* same wrapper + centered input/placeholder */}
+      <label className="block w-full max-w-sm mx-auto">
         <input
           name="name"
           data-cy="name-input"
-          className="border p-2 ml-2"
+          className="w-full rounded-xl border p-3
+                     bg-transparent text-center
+                     placeholder:text-center placeholder:opacity-70
+                     focus:outline-none focus:ring-2 focus:ring-white/30"
           placeholder="Your name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </label>
 
-      <button
-        data-cy="submit-booking"
-        className="border px-3 py-1 rounded"
-        disabled={!isValid}
-      >
-        Book
-      </button>
+      {/* put the button in the same width wrapper so it lines up */}
+      <div className="block w-full max-w-sm mx-auto">
+        <button
+          data-cy="submit-booking"
+          className="w-full rounded-xl border p-3
+                     transition will-change-transform
+                     hover:bg-white/10 hover:shadow-md hover:-translate-y-0.5
+                     focus:outline-none focus:ring-2 focus:ring-white/30
+                     disabled:opacity-50 disabled:cursor-not-allowed
+                     disabled:hover:shadow-none disabled:hover:translate-y-0"
+          disabled={!isValid}
+        >
+          Book
+        </button>
+      </div>
     </form>
   );
 }

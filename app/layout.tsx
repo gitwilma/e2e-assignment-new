@@ -26,7 +26,7 @@ export default function RootLayout({
             className="w-full max-w-lg rounded-3xl
                  border border-white/30 ring-1 ring-white/20
                  bg-white/5
-                 shadow-[0_8px_30px_rgba(0,0,0,0.25)]
+                 shadow-[0_2px_8px_rgba(0,0,0,0.06)]
                  p-6"
           >
             {children}
