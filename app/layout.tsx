@@ -28,7 +28,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="min-h-screen grid place-items-center p-4 bg-gradient-to-b from-[#65060D] to-[#9DA0DD]">
-          <div className="w-full max-w-lg rounded-2xl border shadow-sm bg-white/90 dark:bg-neutral-900/60 backdrop-blur p-6">
+          <div
+            className="w-full max-w-lg rounded-3xl
+                 border border-white/30 ring-1 ring-white/20
+                 bg-white/5
+                 shadow-[0_8px_30px_rgba(0,0,0,0.25)]
+                 p-6"
+          >
             {children}
           </div>
         </div>
