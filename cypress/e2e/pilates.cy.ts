@@ -30,10 +30,20 @@ it("should prevent double booking the same class", () => {
   cy.get('[data-cy=name-input]').type("Jim");
   cy.get('[data-cy=submit-booking]').click();
 
-  // andra försök
   cy.visit("/");
   cy.get('[data-cy=class-select] option:disabled').contains("Matwork 07:00");
 });
 
+it("should validate invalid input and allow booking after correction", () => {
+  cy.visit("/");
+  cy.get('[data-cy=class-select]').select("Stretch 12:00");
+  cy.get('[data-cy=submit-booking]').should("be.disabled");
+  cy.get('[data-cy=name-input]').type("K").blur();
+  cy.get('[data-cy=submit-booking]').should("be.disabled");
+
+  cy.get('[data-cy=name-input]').clear().type("Kasper");
+  cy.get('[data-cy=submit-booking]').should("not.be.disabled").click();
+  cy.get('[data-cy=booking-success]').should("contain", "Kasper");
+});
 
 });

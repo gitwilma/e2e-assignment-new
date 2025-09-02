@@ -10,8 +10,7 @@ export async function createBooking(formData: FormData) {
   if (!classId) throw new Error("Välj en klass.");
   if (name.length < 2) throw new Error("Ange ditt namn (minst 2 tecken).");
 
-  // försök skapa unikt på classId => kastar om redan finns
   await db.booking.create({ data: { classId, name } });
 
-  revalidatePath("/"); // uppdatera sidan
+  revalidatePath("/");
 }
